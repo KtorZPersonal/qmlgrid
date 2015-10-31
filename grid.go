@@ -30,13 +30,13 @@ func (grid *Grid) Draw(parent qml.Object) {
 }
 
 func create(width, height, tilesize int) (*Grid, error) {
-    grid := &Grid{
-        width,
-        height,
-        tilesize,
-        nil,
-        nil,
-    }
+	grid := &Grid{
+		width,
+		height,
+		tilesize,
+		nil,
+		nil,
+	}
 
 	engine := qml.NewEngine()
 
@@ -108,30 +108,30 @@ func (grid *Grid) SetEmpty(i int, j int) {
 // IsWalkable return false if the given coordinates are out of the grid or,
 // if they target a Blocked tile. True otherwise.
 func (grid *Grid) IsWalkable(i, j int) bool {
-    if i < 0 || i >= grid.height || j < 0 || j >= grid.width {
-        return false
-    }
-    return grid.tiles[i][j].Property("kind") != blocked
+	if i < 0 || i >= grid.height || j < 0 || j >= grid.width {
+		return false
+	}
+	return grid.tiles[i][j].Property("kind") != blocked
 }
 
 // IsGoal return true if the target is a Goal tile
 func (grid *Grid) IsGoal(i, j int) bool {
-    return grid.tiles[i][j].Property("kind") == goal
+	return grid.tiles[i][j].Property("kind") == goal
 }
 
 // New create a new tile and execute the running function passed as argument
 func New(w int, h int, s int, f func(g *Grid) error) error {
-	return qml.Run(func () error {
-        grid, err := create(w, h, s)
-        if err != nil {
-            return err
-        }
-        grid.window.Show()
-        err = f(grid)
-        if err != nil {
-            return err
-        }
-        grid.window.Wait()
-        return nil
-    })
+	return qml.Run(func() error {
+		grid, err := create(w, h, s)
+		if err != nil {
+			return err
+		}
+		grid.window.Show()
+		err = f(grid)
+		if err != nil {
+			return err
+		}
+		grid.window.Wait()
+		return nil
+	})
 }
