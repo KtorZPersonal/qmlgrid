@@ -3,7 +3,12 @@
 // to visualize the effect of an algorithm.
 package qmlgrid
 
-import "gopkg.in/qml.v1"
+import (
+    "gopkg.in/qml.v1"
+    "os"
+//    "io/ioutil"
+    "fmt"
+)
 
 type Grid struct {
 	width    int
@@ -40,7 +45,7 @@ func create(width, height, tilesize int) (*Grid, error) {
 
 	engine := qml.NewEngine()
 
-	tileComponent, err := engine.LoadFile("tile.qml")
+    tileComponent, err := engine.LoadFile("qrc:///tile.qml")
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +67,7 @@ func create(width, height, tilesize int) (*Grid, error) {
 	context := engine.Context()
 	context.SetVar("grid", grid)
 
-	gridComponent, err := engine.LoadFile("grid.qml")
+    gridComponent, err := engine.LoadFile("qrc:///grid.qml")
 	if err != nil {
 		return nil, err
 	}
@@ -121,6 +126,9 @@ func (grid *Grid) IsGoal(i, j int) bool {
 
 // New create a new tile and execute the running function passed as argument
 func New(w int, h int, s int, f func(g *Grid) error) error {
+    pwd, _ := os.Getwd()
+    fmt.Println(pwd)
+
 	return qml.Run(func() error {
 		grid, err := create(w, h, s)
 		if err != nil {
