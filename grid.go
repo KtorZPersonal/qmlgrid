@@ -3,12 +3,7 @@
 // to visualize the effect of an algorithm.
 package qmlgrid
 
-import (
-    "gopkg.in/qml.v1"
-    "os"
-//    "io/ioutil"
-    "fmt"
-)
+import "gopkg.in/qml.v1"
 
 type Grid struct {
 	width    int
@@ -126,9 +121,6 @@ func (grid *Grid) IsGoal(i, j int) bool {
 
 // New create a new tile and execute the running function passed as argument
 func New(w int, h int, s int, f func(g *Grid) error) error {
-    pwd, _ := os.Getwd()
-    fmt.Println(pwd)
-
 	return qml.Run(func() error {
 		grid, err := create(w, h, s)
 		if err != nil {
